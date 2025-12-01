@@ -3,8 +3,8 @@ package br.com.competeaqui.pix;
 /*
  * Classe baseada em uma biblioteca PHP disponível em https://github.com/renatomb/php_qrcode_pix.
  */
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreNumeros;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCNumeros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import java.math.BigDecimal;
 
 import static java.util.Objects.requireNonNull;
@@ -45,7 +45,7 @@ public class DadosEnvioPix {
     }
 
     public DadosEnvioPix() {
-        if (UtilSBCoreStringValidador.isNuloOuEmbranco(requireNonNull(nomeDestinatario))) {
+        if (UtilCRCStringValidador.isNuloOuEmbranco(requireNonNull(nomeDestinatario))) {
             throw new IllegalArgumentException("O nome do destinatário é obrigatório.");
         }
         nomeDestinatario = nomeDestinatario.trim();
@@ -55,7 +55,7 @@ public class DadosEnvioPix {
             throw new IllegalArgumentException(msg);
         }
 
-        if (UtilSBCoreStringValidador.isNuloOuEmbranco(requireNonNull(chaveDestinatario))) {
+        if (UtilCRCStringValidador.isNuloOuEmbranco(requireNonNull(chaveDestinatario))) {
             throw new IllegalArgumentException("A chave PIX do destinatário é obrigatória.");
         }
         chaveDestinatario = chaveDestinatario.trim();
@@ -65,7 +65,7 @@ public class DadosEnvioPix {
             throw new IllegalArgumentException(msg);
         }
 
-        if (UtilSBCoreStringValidador.isNuloOuEmbranco(requireNonNull(cidadeRemetente))) {
+        if (UtilCRCStringValidador.isNuloOuEmbranco(requireNonNull(cidadeRemetente))) {
             throw new IllegalArgumentException("A cidade do remetente é obrigatória.");
         }
         cidadeRemetente = cidadeRemetente.trim();
@@ -87,7 +87,7 @@ public class DadosEnvioPix {
             throw new IllegalArgumentException("O valor do PIX deve ser maior que zero.");
         }
 
-        String valorStr = String.valueOf(UtilSBCoreNumeros.doubleArredondamento(valor.doubleValue(), 2));
+        String valorStr = String.valueOf(UtilCRCNumeros.doubleArredondamento(valor.doubleValue(), 2));
         if (valorStr.length() > 13) {
             String msg = "Valor não pode ter mais que 13 caracteres. '%s' tem %d caracteres."
                     .format(valorStr, valorStr.length());
@@ -102,7 +102,7 @@ public class DadosEnvioPix {
      * @return
      */
     public String valorStr() {
-        return String.valueOf(UtilSBCoreNumeros.doubleArredondamento(valor.doubleValue(), 2));
+        return String.valueOf(UtilCRCNumeros.doubleArredondamento(valor.doubleValue(), 2));
     }
 
     public String getNomeDestinatario() {

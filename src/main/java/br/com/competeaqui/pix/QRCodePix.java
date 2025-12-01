@@ -9,8 +9,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreJson;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCJson;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.UtilGeral.json.ErroProcessandoJson;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
@@ -180,8 +180,8 @@ public final class QRCodePix {
     private JsonObject newJSONObject() {
         try {
             JsonObjectBuilder novoJson
-                    = UtilSBCoreJson.getJsonBuilderBySequenciaChaveValor("00", PFI);
-            JsonObjectBuilder destinatario = UtilSBCoreJson.getJsonBuilderBySequenciaChaveValor("00", ARRANJO_PAGAMENTO,
+                    = UtilCRCJson.getJsonBuilderBySequenciaChaveValor("00", PFI);
+            JsonObjectBuilder destinatario = UtilCRCJson.getJsonBuilderBySequenciaChaveValor("00", ARRANJO_PAGAMENTO,
                     "01", dadosPix.getChaveDestinatario(),
                     "02", dadosPix.getDescricao()
             );
@@ -192,7 +192,7 @@ public final class QRCodePix {
             novoJson.add("58", COD_PAIS);
             novoJson.add("59", dadosPix.getNomeDestinatario());
             novoJson.add("60", dadosPix.getCidadeRemetente());
-            JsonObjectBuilder codigoTransacao = UtilSBCoreJson.getJsonBuilderBySequenciaChaveValor(
+            JsonObjectBuilder codigoTransacao = UtilCRCJson.getJsonBuilderBySequenciaChaveValor(
                     "05", idTransacao
             );
             novoJson.add("62", codigoTransacao);
@@ -225,7 +225,7 @@ public final class QRCodePix {
                                     MCC, COD_MOEDA, COD_CAMPO_VALOR, dadosPix.valorStr(), COD_PAIS,
                                     dadosPix.getNomeDestinatario(), dadosPix.getCidadeRemetente(), idTransacao);
             JsonObject jsonObj = novoJson.build();
-            System.out.println(UtilSBCoreJson.getTextoByJsonObjeect(jsonObj));
+            System.out.println(UtilCRCJson.getTextoByJsonObjeect(jsonObj));
             return jsonObj;
         } catch (ErroProcessandoJson ex) {
             return JsonObject.EMPTY_JSON_OBJECT;
@@ -414,7 +414,7 @@ public final class QRCodePix {
 
         final QRCodeWriter writer = new QRCodeWriter();
         try {
-            if (code == null || UtilSBCoreStringValidador.isNuloOuEmbranco(code)) {
+            if (code == null || UtilCRCStringValidador.isNuloOuEmbranco(code)) {
                 generate();
             }
 
